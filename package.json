@@ -1,0 +1,42 @@
+{
+  "name": "weather-widget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack --env mode=production",
+    "dev": "npx webpack serve --env port=3000"
+  },
+  "keywords": [],
+  "author": "shortytapki",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@types/webpack": "^5.28.1",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "sass": "^1.64.1",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "vue-loader": "^17.2.2",
+    "vue-template-compiler": "^2.7.14",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-plugin-vuetify": "^2.0.1"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.2.96",
+    "dotenv": "^16.3.1",
+    "pinia": "^2.1.6",
+    "vue": "^3.3.4",
+    "vuedraggable": "^4.1.0",
+    "vuetify": "^3.3.10"
+  }
+}
