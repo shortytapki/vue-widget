@@ -76,7 +76,6 @@ export default defineComponent({
     ForecastView,
     SettingsView,
   },
-  computed: {},
 });
 </script>
 
