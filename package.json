@@ -1,11 +1,10 @@
 {
   "name": "shortytapki-widget",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Weather widget",
   "main": "./build/main.50e663168f72af58afb1.js",
   "files": [
-    "./build/main.50e663168f72af58afb1.js",
-    "./build/css/main.1023ff87.css"
+    "./build"
   ],
   "scripts": {
     "build": "npx webpack --env mode=production",
