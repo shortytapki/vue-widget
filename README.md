@@ -1,15 +1,17 @@
 # Weather widget
+
 ## Usage:
+
 ```
 <!DOCTYPE html>
 
 <html lang="en">
 <title>Document</title>'
-<link rel="stylesheet" href="https://unpkg.com/shortytapki-widget@1.0.1/build/css/main.3b3dc375.css" />
+<link rel="stylesheet" href="https://unpkg.com/shortytapki-widget@1.0.4/build/css/main.1023ff87.css" />
 </head>
 
 <body>
-  <script src="https://unpkg.com/shortytapki-widget@1.0.1/build/main.ca890d06ec5b2032313c.js">
+  <script src="https://unpkg.com/shortytapki-widget@1.0.4/build/main.50e663168f72af58afb1.js">
   </script>
   <weather-widget />
 </body>
