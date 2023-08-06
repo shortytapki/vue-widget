@@ -12,6 +12,21 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
     ],
   };
 
+  const babelLoader = {
+    test: /\.ts$/,
+    exclude: /node_modules/,
+    use: {
+      loader: "babel-loader",
+      options: {
+        presets: [
+          "@babel/preset-typescript",
+          "babel-preset-typescript-vue3",
+          "@babel/preset-env",
+        ],
+      },
+    },
+  };
+
   const vueLoader = { test: /\.vue$/, loader: "vue-loader" };
 
   const typescriptLoader = {
@@ -23,5 +38,5 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
     },
   };
 
-  return [typescriptLoader, scssLoader, vueLoader];
+  return [babelLoader, typescriptLoader, scssLoader, vueLoader];
 }

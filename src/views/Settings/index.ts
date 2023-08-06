@@ -1,3 +1,3 @@
-import SettingsView from "./SettingsView.vue";
+import SettingsView from './SettingsView.vue';
 
 export { SettingsView };

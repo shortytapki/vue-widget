@@ -24,15 +24,15 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(vuetify);
 
-export class Widget extends HTMLElement {
+class Widget extends HTMLElement {
   connectedCallback() {
-    app.mount(this)
+    app.mount(this);
   }
 }
-customElements.define('weather-widget', Widget)
+customElements.define("weather-widget", Widget);
 
 declare global {
   interface HTMLElementTagNameMap {
-    'weather-widget': Widget
+    "weather-widget": Widget;
   }
 }

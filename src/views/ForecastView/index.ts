@@ -1,3 +1,3 @@
-import ForecastView from "./ForecastView.vue";
+import ForecastView from './ForecastView.vue';
 
 export { ForecastView };

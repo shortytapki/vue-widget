@@ -1,75 +1,78 @@
 <template>
-  <div class="container mx-auto my-5" :key="currentLocation">
+  <div
+    class="container mx-auto my-5"
+    :key="`${currentLocation?.title}|${savedLocations?.length}`"
+  >
     <v-card :loading="isLoading">
       <v-toolbar color="blue-darken-2" class="text-white py-2">
         <v-toolbar-title>
           {{
-            settingsAreOpened ? "Settings" : currentLocation || "No location..."
+            mainView ? currentLocation?.title || "No location..." : "Settings"
           }}
         </v-toolbar-title>
         <v-btn
-          :icon="settingsAreOpened ? 'mdi-close' : 'mdi-cog'"
+          :icon="mainView ? 'mdi-cog' : 'mdi-close'"
           color="blue-darken-2"
           class="bg-white"
           @click="toggleSettings"
         ></v-btn>
       </v-toolbar>
-      <ForecastView
-        v-if="!settingsAreOpened"
-        :forecast="forecast"
-        :fetch-error="fetchError"
-      />
-      <SettingsView v-if="settingsAreOpened" />
+      <ForecastView v-if="mainView" />
+      <SettingsView v-else />
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onUpdated, onMounted, ref } from "vue";
 import { ForecastView } from "@views/ForecastView";
 import { SettingsView } from "@views/Settings";
-import { useAppStore } from "@shared/stores";
+import { useMainStore, useSettingsStore } from "@shared/stores";
 import { storeToRefs } from "pinia";
-import { onUpdated } from "vue";
-import { onMounted } from "vue";
 
 export default defineComponent({
   setup() {
-    const store = useAppStore();
-    const {
-      isConfigured,
-      settingsAreOpened,
-      isLoading,
-      currentLocation,
-      forecast,
-      savedLocations,
-      refetch,
-      fetchError,
-    } = storeToRefs(store);
-    const { toggleSettings, getWeather } = store;
+    const mainStore = useMainStore();
+
+    const { fetchError, isLoading, mainView, forecast } =
+      storeToRefs(mainStore);
+
+    const { toggleSettings, getWeather, setIsLoading } = mainStore;
+
+    const settingsStore = useSettingsStore();
+    const { savedLocations, currentLocation, refetch } =
+      storeToRefs(settingsStore);
+
+    const { setRefectch } = settingsStore;
+    const { setFetchError, setForecast } = mainStore;
+
     onMounted(() => {
-      if (savedLocations.value) {
-        getWeather(
-          savedLocations.value.find((l) => l.title === currentLocation.value)
-        );
+      if (currentLocation?.value) {
+        getWeather(currentLocation.value);
       }
+      setIsLoading(false);
     });
-    onUpdated(async () => {
-      if (refetch.value) {
-        getWeather(
-          savedLocations.value.find((l) => l.title === currentLocation.value)
-        );
+
+    onUpdated(() => {
+      if (currentLocation?.value && refetch.value) {
+        getWeather(currentLocation.value);
+        setRefectch(false);
       }
+      if (!savedLocations.value?.length) {
+        setForecast(undefined);
+        setFetchError("");
+      }
+      setIsLoading(false);
     });
 
     return {
       isLoading,
-      settingsAreOpened,
-      isConfigured,
-      currentLocation,
-      toggleSettings,
+      mainView,
       forecast,
       fetchError,
+      toggleSettings,
+      currentLocation,
+      savedLocations,
     };
   },
   components: {
@@ -81,6 +84,6 @@ export default defineComponent({
 
 <style lang="scss">
 .container {
-  width: 350px;
+  width: 375px;
 }
 </style>

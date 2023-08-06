@@ -1,16 +1,16 @@
 <template lang="">
-  <div class="w-75 mx-auto py-5" v-if="props.forecast && !props.fetchError">
+  <div class="w-75 mx-auto py-5 px-5" v-if="forecast">
     <div class="d-flex align-center justify-center">
-      <p class="text-h2">{{ Math.floor(props.forecast.temperature) }}&deg;C</p>
+      <p class="text-h2">{{ Math.floor(forecast.temperature) }}&deg;C</p>
       <img
         width="80"
-        :src="`https://openweathermap.org/img/wn/${props.forecast.icon}@2x.png`"
+        :src="`https://openweathermap.org/img/wn/${forecast.icon}@2x.png`"
         alt=""
       />
     </div>
     <p class="text-center mb-5">
-      Feels like {{ Math.floor(props.forecast.feelsLike) }}&deg;C,
-      {{ props.forecast.description }}.
+      Feels like {{ Math.floor(forecast.feelsLike) }}&deg;C,
+      {{ forecast.description }}.
     </p>
     <v-list-item
       v-for="(item, idx) of forecastListItems"
@@ -21,34 +21,32 @@
         <v-icon :icon="item.icon"> </v-icon>
       </template>
       <v-list-item-title
-        v-text="
-          `${capitalize(item.text)}: ${props.forecast[item.text]}${item.unit}`
-        "
+        v-text="`${capitalize(item.text)}: ${forecast[item.text]}${item.unit}`"
       ></v-list-item-title>
     </v-list-item>
   </div>
-  <div class="px-5 py-5">
-    <p v-if="!isConfigured && !settingsAreOpened">
-      Unable to show forecast without any location.
-    </p>
-    <p v-if="props.fetchError" class="text-red-darken-2">
-      Error: {{ props.fetchError }}. Try to change or edit current location.
-    </p>
-  </div>
+  <v-card-text v-if="!savedLocations">
+    Unable to show forecast without any location.
+  </v-card-text>
+  <v-card-text v-if="fetchError" class="text-red-darken-2">
+    Error: {{ fetchError }}. Try to change or edit current location.
+  </v-card-text>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useAppStore } from "@shared/stores";
+import { capitalize } from "@shared/lib";
+import { useMainStore, useSettingsStore } from "@shared/stores";
 import { storeToRefs } from "pinia";
-import { Forecast } from "@shared/types";
-import { PropType } from "vue";
+
 export default defineComponent({
-  setup(props) {
-    const capitalize = (str: string) =>
-      str.charAt(0).toUpperCase() + str.slice(1);
-    const store = useAppStore();
-    const { isConfigured, settingsAreOpened } = storeToRefs(store);
+  setup() {
+    const mainStore = useMainStore();
+    const { forecast, fetchError } = storeToRefs(mainStore);
+
+    const settingsStore = useSettingsStore();
+    const { savedLocations } = storeToRefs(settingsStore);
+
     const forecastListItems = [
       { text: "visibility", icon: "mdi-car-light-fog", unit: "km" },
       { text: "humidity", icon: "mdi-water-percent", unit: "%" },
@@ -60,21 +58,14 @@ export default defineComponent({
       },
       { text: "pressure", icon: "mdi-compass-outline", unit: "hPa" },
     ];
+
     return {
       capitalize,
-      isConfigured,
-      settingsAreOpened,
       forecastListItems,
-      props,
+      forecast,
+      savedLocations,
+      fetchError,
     };
-  },
-  props: {
-    forecast: {
-      type: Object as PropType<Forecast>,
-    },
-    fetchError: {
-      type: String,
-    },
   },
 });
 </script>
