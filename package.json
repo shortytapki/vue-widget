@@ -4,6 +4,7 @@
   "description": "Weather widget",
   "main": "./build/main.50e663168f72af58afb1.js",
   "files": [
+    "./build/main.50e663168f72af58afb1.js",
     "./build/css/main.1023ff87.css"
   ],
   "scripts": {
