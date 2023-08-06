@@ -1,6 +1,6 @@
 {
   "name": "shortytapki-widget",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Weather widget",
   "main": "./build/main.50e663168f72af58afb1.js",
   "files": [
